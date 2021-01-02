@@ -36,14 +36,18 @@ router.post('/login', async(req, res)=>{
     if(error) return res.status(400).send(error.details[0].message);
 
     const user = await User.findOne({email:req.body.email})
-    if(!user) return res.status(400).send('Email or Password is wrong');
+    console.log(user)
+    if(user && !user.active) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'User is not verified yet.'});
+
+    if(!user) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Email or Password is wrong'});
 
     const validate_pass = await bcrypt.compare(req.body.password, user.password)
-    if(!validate_pass) return res.status(400).send("Password is wrong")
+    if(!validate_pass) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Password is wrong'})
 
     //Create and assign a token
     var token = jwt.sign({ _id: user.id }, process.env.PRIVATE_TOKEN);
     res.header('auth-token', token).send(token)
+
 
     res.send("Logged in!")
 
