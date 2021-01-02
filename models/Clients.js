@@ -2,24 +2,29 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ItemSchema = new Schema({
+    client_id: {
+        type: String,
+        required: true,
+        max: 255,
+    },
     name: {
         type: String,
-        require: true,
+        required: true,
         max: 255,
-        min: 6
+        min: 2
     },
-    clientaddress: {
+    address: {
         type: String,
-        require: false,
+        required: false,
         max: 1024,
     },
     gst: {
-        type: Number,
-        require: false
+        type: String,
+        required: false
     },
     contact: {
-        type: Number,
-        require: false
+        type: String,
+        required: false
     }
 });
 

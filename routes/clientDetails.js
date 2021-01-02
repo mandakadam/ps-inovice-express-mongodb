@@ -1,21 +1,21 @@
 const router = require('express').Router();
 const verifyToken = require('../utils/verifyToken')
-const Clients = require('../models/Clients')
+const CD = require('../models/ClientDetails')
 
 router.get('/read', verifyToken, (req, res) => {
     // res.send(req.user)
-    Clients.find({}, (err, items) => {
+    CD.find({}, (err, items) => {
         if (err) res.send(err);
         res.json(items);
     });
 });
 
 router.get('/read/:clientid', verifyToken, async (req, res) => {
-    const isClientExists = await Clients.findOne({ name: req.params.clientid })
-    if (!isClientExists) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Client not found!' });
+    const isClientExists = await CD.findOne({ name: req.params.clientid })
+    if (!isClientExists) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Invoice not found!' });
 
     try {
-        res.send(isClientExists);
+        res.send({"client_detail": req.body, "invoce_details": isClientExists});
     }
     catch (err) {
         res.status(400).send(err);
@@ -23,18 +23,18 @@ router.get('/read/:clientid', verifyToken, async (req, res) => {
 });
 
 router.put('/update/:clientid', verifyToken, async (req, res) => {
-    const isClientExists = await Clients.findOne({ name: req.params.clientid })
-    if (!isClientExists) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Client not found!' });
+    const isClientExists = await CD.findOne({ name: req.params.clientid })
+    if (!isClientExists) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Invoice not found!' });
 
     try {
-        const updateClient = await Clients.findOneAndUpdate(
+        const updateClient = await CD.findOneAndUpdate(
             { name: req.params.clientid },
             req.body,
             { new: true }
         );
         res.send({
             'status': 'success',
-            'msg': `Client (${req.params.clientid}) updated successfully`
+            'msg': `Invoice (${req.params.clientid}) updated successfully`
         });
     }
     catch (err) {
@@ -42,14 +42,14 @@ router.put('/update/:clientid', verifyToken, async (req, res) => {
     }
 });
 router.delete('/delete/:clientid', verifyToken, async (req, res) => {
-    const isClientExists = await Clients.findOne({ name: req.params.clientid })
+    const isClientExists = await CD.findOne({ name: req.params.clientid })
     if (!isClientExists) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Client not found!' });
 
     try {
-        const updateClient = await Clients.deleteOne({ name: req.params.clientid })
+        const updateClient = await CD.deleteOne({ name: req.params.clientid })
         res.send({
             'status': 'success',
-            'msg': `Client (${req.params.clientid}) deleted successfully`
+            'msg': `Invoice (${req.params.clientid}) deleted successfully`
         });
     }
     catch (err) {
@@ -59,16 +59,16 @@ router.delete('/delete/:clientid', verifyToken, async (req, res) => {
 
 
 router.post('/create', verifyToken, async (req, res) => {
-    const isClientExists = await Clients.findOne({ name: req.body.name })
+    const isClientExists = await CD.findOne({ name: req.body.name })
     if (isClientExists) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Client already exists!' });
 
-    const newClient = new Clients(req.body);
+    const newClient = new CD(req.body);
 
     try {
         const saveClient = await newClient.save();
         res.send({
             'status': 'success',
-            'msg': `New Client (${req.body.name}) created successfully`
+            'msg': `New invoice (${req.body.name}) created successfully`
         });
     }
     catch (err) {

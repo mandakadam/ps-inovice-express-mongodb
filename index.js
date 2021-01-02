@@ -19,9 +19,11 @@ app.use(express.json());
 //Routes
 const authRoute = require('./routes/auth');
 const clientsRoute = require('./routes/clients');
+const clientDetailsRoute = require('./routes/clientDetails');
 
 app.use('/api/user', authRoute);
 app.use('/api/clients', clientsRoute);
+app.use('/api/clientDetails', clientDetailsRoute);
 
 
 app.get('/', (req, res)=>{
