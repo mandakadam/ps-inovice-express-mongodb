@@ -6,7 +6,7 @@ dotenv.config();
 const app = express();
 
 // PORT 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 5000
 app.listen(PORT, err=>{
     if(err) throw err;
     console.log(`Server is running on ${PORT}`)
