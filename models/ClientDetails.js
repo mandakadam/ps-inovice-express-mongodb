@@ -13,7 +13,7 @@ const ItemSchema = new Schema({
         max: 255,
         min: 2
     },
-    invoiceDate: {
+    invoice_date: {
         type: Date,
         required: true,
         default: Date.now,
@@ -26,19 +26,18 @@ const ItemSchema = new Schema({
         type: String,
         required: true,
     },
-    inWords:{
-        type: String,
-        required: true,
-    },
     status: {
         type: Number,
         required: true,
     },
-    statusText: {
-        type: String,
+    invoice_no: {
+        type: Number,
         required: true,
     },
-
+    invoice_ref:{
+        type: String,
+        required: true,
+    }
 });
 
 

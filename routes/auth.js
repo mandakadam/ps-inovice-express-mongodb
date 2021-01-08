@@ -37,16 +37,16 @@ router.post('/login', async(req, res)=>{
 
     const user = await User.findOne({email:req.body.email})
     console.log(user)
-    if(user && !user.active) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'User is not verified yet.'});
+    if(user && !user.active) return res.status(400).json({ 'status': 'unsuccess', 'msg': 'User is not verified yet.'});
 
-    if(!user) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Email or Password is wrong'});
+    if(!user) return res.status(400).json({ 'status': 'unsuccess', 'msg': 'Email or Password is wrong'});
 
     const validate_pass = await bcrypt.compare(req.body.password, user.password)
-    if(!validate_pass) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Password is wrong'})
+    if(!validate_pass) return res.status(400).json({ 'status': 'unsuccess', 'msg': 'Email or Password is wrong'})
 
     //Create and assign a token
     var token = jwt.sign({ _id: user.id }, process.env.PRIVATE_TOKEN);
-    res.header('auth-token', token).send({ 'status': 'success', 'msg': 'Logged in', "token":token})
+    res.header('auth-token', token).json({ 'status': 'success', 'msg': 'Logged in', "token":token})
 
     res.send("Logged in!")
 

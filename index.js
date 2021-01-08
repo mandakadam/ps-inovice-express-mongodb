@@ -2,8 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
+var cors = require('cors')
 
 const app = express();
+app.use(cors())
 
 // PORT 
 const PORT = process.env.PORT || 5000
@@ -23,7 +25,7 @@ const clientDetailsRoute = require('./routes/clientDetails');
 
 app.use('/api/user', authRoute);
 app.use('/api/clients', clientsRoute);
-app.use('/api/clientDetails', clientDetailsRoute);
+app.use('/api/client_details', clientDetailsRoute);
 
 
 app.get('/', (req, res)=>{
