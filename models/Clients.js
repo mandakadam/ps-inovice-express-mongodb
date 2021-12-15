@@ -22,6 +22,10 @@ const ItemSchema = new Schema({
         type: String,
         required: false
     },
+    pan: {
+        type: String,
+        required: false
+    },
     contact: {
         type: String,
         required: false
