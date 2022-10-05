@@ -45,7 +45,7 @@ router.post('/login', async(req, res)=>{
     if(!validate_pass) return res.status(400).json({ 'status': 'unsuccess', 'msg': 'Email or Password is wrong'})
 
     //Create and assign a token
-    var token = jwt.sign({ _id: user.id }, process.env.PRIVATE_TOKEN);
+    var token = jwt.sign({ _id: user.id }, process.env.PRIVATE_TOKEN || 'Require key here!!!');
     res.header('auth-token', token).json({ 'status': 'success', 'msg': 'Logged in', "token":token})
 
     res.send("Logged in!")
