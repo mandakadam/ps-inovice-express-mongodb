@@ -48,7 +48,7 @@ router.post('/login', async(req, res)=>{
     var token = jwt.sign({ _id: user.id }, process.env.PRIVATE_TOKEN || 'Require key here!!!');
     res.header('auth-token', token).json({ 'status': 'success', 'msg': 'Logged in', "token":token})
 
-    res.send("Logged in!")
+    // res.send("Logged in!")
 
 })
 
