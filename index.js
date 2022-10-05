@@ -5,7 +5,7 @@ dotenv.config();
 var cors = require('cors')
 
 const app = express();
-app.use(cors())
+
 
 // PORT 
 const PORT = process.env.PORT || 5000
@@ -32,12 +32,14 @@ app.get('/', (req, res)=>{
     res.send('Test Data')
 })
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin: *');
-    res.header('Access-Control-Allow-Headers: Content-Type');
-    res.header('Access-Control-Allow-Methods: POST')
-    next();
-});
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin: *');
+//     res.header('Access-Control-Allow-Headers: Content-Type');
+//     res.header('Access-Control-Allow-Methods: POST')
+//     next();
+// });
+
+app.use(cors()); // <---- use cors middleware
 
 //User Mongoose DB Connection
 mongoose
