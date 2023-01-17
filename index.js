@@ -29,7 +29,7 @@ app.use('/api/client_details', clientDetailsRoute);
 
 
 app.get('/', (req, res)=>{
-    res.send('Test Data')
+    res.send('Test Data 1')
 })
 
 app.use((req, res, next) => {
