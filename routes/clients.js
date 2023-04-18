@@ -2,7 +2,7 @@ const router = require('express').Router();
 const verifyToken = require('../utils/verifyToken')
 const Clients = require('../models/Clients')
 
-router.post('/read', verifyToken, (req, res) => {
+router.post('/read', (req, res) => {
     // res.send(req.user)
     Clients.find({}, (err, items) => {
         if (err) res.send(err);
@@ -10,7 +10,7 @@ router.post('/read', verifyToken, (req, res) => {
     });
 });
 
-router.post('/read/:client_id', verifyToken, async (req, res) => {
+router.post('/read/:client_id', async (req, res) => {
     const isClientExists = await Clients.findOne({ client_id: req.params.client_id })
     if (!isClientExists) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Client not found!' });
 
@@ -22,7 +22,7 @@ router.post('/read/:client_id', verifyToken, async (req, res) => {
     }
 });
 
-router.put('/update/:client_id', verifyToken, async (req, res) => {
+router.put('/update/:client_id', async (req, res) => {
     const isClientExists = await Clients.findOne({ client_id: req.params.client_id })
     if (!isClientExists) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Client not found!' });
 
@@ -41,7 +41,7 @@ router.put('/update/:client_id', verifyToken, async (req, res) => {
         res.status(400).send(err);
     }
 });
-router.delete('/delete/:client_id', verifyToken, async (req, res) => {
+router.delete('/delete/:client_id', async (req, res) => {
     const isClientExists = await Clients.findOne({ client_id: req.params.client_id })
     if (!isClientExists) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Client not found!' });
 
@@ -58,7 +58,7 @@ router.delete('/delete/:client_id', verifyToken, async (req, res) => {
 });
 
 
-router.post('/create', verifyToken, async (req, res) => {
+router.post('/create', async (req, res) => {
     const isClientExists = await Clients.findOne({ client_id: req.body.client_id,  name: req.body.name})
     if (isClientExists) return res.status(400).send({ 'status': 'unsuccess', 'msg': 'Client already exists!' });
 
